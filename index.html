@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Manager Self-Assessment</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #111;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #444;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .intro-list {
+            margin: 24px 0;
+            padding-left: 20px;
+        }
+
+        .intro-list li {
+            margin-bottom: 12px;
+            color: #444;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px 0;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #0369a1;
+            font-size: 0.9375rem;
+        }
+
+        .warning-box {
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px 0;
+        }
+
+        .warning-box p {
+            margin: 0;
+            color: #92400e;
+            font-size: 0.9375rem;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .logo svg {
+            filter: drop-shadow(0 4px 12px rgba(14, 165, 233, 0.15));
+        }
+
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f3f4f6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #111;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+        }
+
+        .progress-container {
+            margin-bottom: 32px;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #111;
+            transition: width 0.3s ease;
+        }
+
+        .dimension-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: block;
+            padding: 16px 20px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .option:hover {
+            border-color: #9ca3af;
+            background: #f9fafb;
+        }
+
+        .option.selected {
+            border-color: #111;
+            background: #f9fafb;
+        }
+
+        .option.na-option {
+            border-style: dashed;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .option.na-option.selected {
+            border-color: #6b7280;
+            background: #f9fafb;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .nav-buttons .btn {
+            flex: 1;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .overall-tier {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-top: 8px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dimension-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .dimension-score:last-child {
+            border-bottom: none;
+        }
+
+        .dimension-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .score-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-value {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .tier-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tier-emerging { background: #fee2e2; color: #991b1b; }
+        .tier-building { background: #fef3c7; color: #92400e; }
+        .tier-proficient { background: #d1fae5; color: #065f46; }
+        .tier-leading { background: #dbeafe; color: #1e40af; }
+
+        .highlight-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .highlight-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #111;
+        }
+
+        .highlight-card p {
+            font-size: 0.9375rem;
+            color: #4b5563;
+            margin-bottom: 0;
+        }
+
+        .recommendation-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .recommendation-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .recommendation-tier {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .recommendation-advice {
+            font-size: 0.9375rem;
+            color: #333;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .recommendation-sources {
+            font-size: 0.8125rem;
+            color: #6b7280;
+        }
+
+        .recommendation-sources a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .recommendation-sources a:hover {
+            text-decoration: underline;
+        }
+
+        .motivational-close {
+            text-align: center;
+            padding: 32px;
+            background: #f9fafb;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+
+        .motivational-close p {
+            font-size: 1.125rem;
+            color: #374151;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.8125rem;
+            color: #9ca3af;
+        }
+
+        .footer a {
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .env-section {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .env-note {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .na-notice {
+            background: #fef3c7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .na-notice p {
+            margin: 0;
+            color: #92400e;
+            font-size: 0.875rem;
+        }
+
+        .submit-confirmation {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .submit-confirmation p {
+            color: #065f46;
+            margin: 0;
+        }
+
+        /* Share CTA - prominent */
+        .share-cta {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .share-cta-text {
+            color: white;
+        }
+
+        .share-cta-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: white;
+        }
+
+        .share-cta-text p {
+            font-size: 0.875rem;
+            margin: 0;
+            opacity: 0.9;
+            color: white;
+        }
+
+        .btn-share {
+            background: white;
+            color: #0284c7;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-share:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-share:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .share-cta.submitted {
+            background: #d1fae5;
+        }
+
+        .share-cta.submitted .share-cta-text h4,
+        .share-cta.submitted .share-cta-text p {
+            color: #065f46;
+        }
+
+        /* Collapsible sections */
+        .collapsible-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e7eb;
+            user-select: none;
+        }
+
+        .collapsible-header:hover {
+            color: #0284c7;
+        }
+
+        .collapsible-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .collapse-icon {
+            transition: transform 0.2s;
+            color: #9ca3af;
+        }
+
+        .collapsible-header.open .collapse-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding-top: 16px;
+        }
+
+        .collapsible-content.open {
+            display: block;
+        }
+
+        /* Growth card with expandable recommendation */
+        .growth-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .growth-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .growth-card-header:hover {
+            background: #f9fafb;
+        }
+
+        .growth-card-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: #111;
+        }
+
+        .growth-card-info .score-line {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .growth-card-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8125rem;
+            color: #0284c7;
+            font-weight: 500;
+        }
+
+        .growth-card-toggle svg {
+            transition: transform 0.2s;
+        }
+
+        .growth-card.open .growth-card-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        .growth-card-details {
+            display: none;
+            padding: 0 20px 20px;
+            border-top: 1px solid #f3f4f6;
+            background: #f9fafb;
+        }
+
+        .growth-card.open .growth-card-details {
+            display: block;
+        }
+
+        .growth-card-details .advice {
+            font-size: 0.9375rem;
+            color: #333;
+            line-height: 1.6;
+            margin: 16px 0;
+        }
+
+        .growth-card-details .sources {
+            font-size: 0.8125rem;
+            color: #6b7280;
+        }
+
+        .growth-card-details .sources a {
+            color: #0284c7;
+            text-decoration: none;
+        }
+
+        .growth-card-details .sources a:hover {
+            text-decoration: underline;
+        }
+
+        /* Compact strengths */
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .strength-chip {
+            background: #d1fae5;
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+
+        .strength-chip h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin: 0 0 2px 0;
+            color: #065f46;
+        }
+
+        .strength-chip p {
+            font-size: 0.8125rem;
+            color: #047857;
+            margin: 0;
+        }
+
+        /* Secondary actions */
+        .secondary-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .btn-text {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 0.875rem;
+            cursor: pointer;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-text:hover {
+            color: #111;
+        }
+
+        @media print {
+            .btn, .action-buttons {
+                display: none !important;
+            }
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .question-text {
+                font-size: 1.125rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="logo">
+                <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer glow circle (community) -->
+                    <circle cx="45" cy="45" r="40" fill="#f0f9ff" stroke="#e0f2fe" stroke-width="2"/>
+
+                    <!-- Inner reflection circle (introspection) -->
+                    <circle cx="45" cy="45" r="28" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1.5"/>
+
+                    <!-- Central person silhouette (self) -->
+                    <circle cx="45" cy="38" r="8" fill="#0284c7"/>
+                    <path d="M33 62 C33 52 39 48 45 48 C51 48 57 52 57 62" fill="#0284c7"/>
+
+                    <!-- Growth arrow (self-improvement) -->
+                    <path d="M45 18 L45 8" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M40 13 L45 6 L50 13" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+                    <!-- Community nodes (connection) -->
+                    <circle cx="16" cy="45" r="5" fill="#8b5cf6"/>
+                    <circle cx="74" cy="45" r="5" fill="#8b5cf6"/>
+                    <circle cx="26" cy="72" r="4" fill="#8b5cf6" fill-opacity="0.7"/>
+                    <circle cx="64" cy="72" r="4" fill="#8b5cf6" fill-opacity="0.7"/>
+
+                    <!-- Connection lines -->
+                    <line x1="21" y1="45" x2="33" y2="50" stroke="#8b5cf6" stroke-width="1.5" stroke-opacity="0.5"/>
+                    <line x1="69" y1="45" x2="57" y2="50" stroke="#8b5cf6" stroke-width="1.5" stroke-opacity="0.5"/>
+                    <line x1="29" y1="69" x2="38" y2="58" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.4"/>
+                    <line x1="61" y1="69" x2="52" y2="58" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.4"/>
+
+                    <!-- Sparkle (growth moments) -->
+                    <path d="M72 18 L74 22 L78 22 L75 25 L76 29 L72 26 L68 29 L69 25 L66 22 L70 22 Z" fill="#f59e0b"/>
+                </svg>
+            </div>
+            <h1>Product Manager Self-Assessment</h1>
+            <p class="subtitle">Discover your strengths and growth areas across 11 PM dimensions.</p>
+
+            <div class="time-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                15-20 minutes
+            </div>
+
+            <h3>What you'll get</h3>
+            <ul class="intro-list">
+                <li>Your scores visualized across all 11 dimensions</li>
+                <li>Curated <strong>Lenny's Podcast</strong> episode recommendations for your growth areas</li>
+            </ul>
+
+            <h3>How it works</h3>
+            <ul class="intro-list">
+                <li>Answer behavioral scenarios — select what you <em>actually</em> do, not what you should do</li>
+                <li>No wrong answers — options represent different experience levels</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>📊 Optional:</strong> Share anonymous scores at the end to help build the first open PM skills benchmark.</p>
+            </div>
+
+            <div class="warning-box">
+                <p>Progress is not saved — please set aside 10-15 uninterrupted minutes.</p>
+            </div>
+
+            <button class="btn" onclick="startAssessment()">Begin Assessment</button>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="question-screen" class="screen">
+            <div class="progress-container">
+                <div class="progress-text">Question <span id="current-q">1</span> of <span id="total-q">48</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <span class="dimension-label" id="dimension-label">Experience</span>
+            <p class="question-text" id="question-text">Loading question...</p>
+
+            <div class="options" id="options-container">
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prev-btn" onclick="previousQuestion()">Back</button>
+                <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-header">
+                <h1>Your Results</h1>
+                <span class="overall-tier" id="overall-tier">Overall: Proficient</span>
+            </div>
+
+            <!-- Prominent Share CTA -->
+            <div class="share-cta" id="share-cta">
+                <div class="share-cta-text">
+                    <h4>📊 Help Build PM Benchmarks</h4>
+                    <p>Share anonymous scores to contribute to the first open PM skills dataset</p>
+                </div>
+                <button class="btn-share" onclick="submitResults()" id="submit-btn">Share My Results</button>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="radar-chart"></canvas>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">💪 Your Strengths</h3>
+                <div class="strengths-grid" id="strengths-container"></div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">🌱 Growth Opportunities</h3>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 16px;">Click each area to see personalized recommendations</p>
+                <div id="growth-container"></div>
+            </div>
+
+            <div id="na-section" class="section" style="display: none;">
+                <h3 class="section-title">⏸️ Skills You're Not Currently Practicing</h3>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 12px;">Areas to seek out even if your current role doesn't require them</p>
+                <div id="na-container"></div>
+            </div>
+
+            <!-- Collapsible: All Scores -->
+            <div class="section">
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h3>📋 View All Dimension Scores</h3>
+                    <svg class="collapse-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="collapsible-content" id="all-scores-container"></div>
+            </div>
+
+            <!-- Collapsible: Environment -->
+            <div class="section" id="env-results">
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h3>🏢 Environment Reflection</h3>
+                    <svg class="collapse-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="collapsible-content" id="env-responses"></div>
+            </div>
+
+            <div class="secondary-actions">
+                <button class="btn-text" onclick="window.print()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9V2h12v7"></path>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Print Results
+                </button>
+            </div>
+
+            <div class="footer">
+                <p>Assessment informed by insights from <a href="https://www.lennysnewsletter.com/podcast" target="_blank">Lenny's Podcast</a></p>
+                <p style="margin-top: 8px;">Built by Anu Narang</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const _d = {
+            dimensions: [
+                { id: 'decision-making', name: 'Decision-Making', category: 'craft' },
+                { id: 'prioritization', name: 'Prioritization', category: 'craft' },
+                { id: 'customer-obsession', name: 'Customer Obsession', category: 'craft' },
+                { id: 'execution', name: 'Execution', category: 'craft' },
+                { id: 'strategic-thinking', name: 'Strategic Thinking', category: 'craft' },
+                { id: 'communication', name: 'Communication', category: 'craft' },
+                { id: 'leadership', name: 'Leadership', category: 'craft' },
+                { id: 'intellectual-humility', name: 'Intellectual Humility', category: 'craft' },
+                { id: 'product-strategy', name: 'Product Strategy', category: 'functional' },
+                { id: 'customer-insight', name: 'Customer Insight', category: 'functional' },
+                { id: 'managing-up', name: 'Managing Up', category: 'functional' }
+            ],
+            expQuestions: [
+                {
+                    id: 'exp-1',
+                    label: 'Experience',
+                    text: 'How long have you been working in product management?',
+                    opts: [
+                        { t: 'Less than 1 year', id: 'A' },
+                        { t: '1-3 years', id: 'B' },
+                        { t: '3-7 years', id: 'C' },
+                        { t: '7+ years', id: 'D' }
+                    ]
+                },
+                {
+                    id: 'exp-2',
+                    label: 'Experience',
+                    text: 'What best describes your current role scope?',
+                    opts: [
+                        { t: 'Single feature or component', id: 'A' },
+                        { t: 'Single product', id: 'B' },
+                        { t: 'Multiple products or product area', id: 'C' },
+                        { t: 'Product portfolio or platform', id: 'D' }
+                    ]
+                }
+            ],
+            questions: [
+                // Decision-Making (4 questions)
+                {
+                    id: 'dm-1', dim: 'decision-making',
+                    text: 'When facing a decision with incomplete data, I typically...',
+                    opts: [
+                        { t: 'Wait until I have more information before deciding', _s: 2 },
+                        { t: 'Escalate to someone with more context to decide', _s: 1 },
+                        { t: 'Make a quick call and adjust if needed later', _s: 3 },
+                        { t: 'Frame decision criteria, test key assumptions, then decide', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'dm-2', dim: 'decision-making',
+                    text: 'When I need to make a decision quickly under pressure, I...',
+                    opts: [
+                        { t: 'Go with my gut and hope for the best', _s: 1 },
+                        { t: 'Ask colleagues what they would do', _s: 2 },
+                        { t: 'Focus on the most important factor and decide based on that', _s: 3 },
+                        { t: 'Quickly distinguish if it\'s reversible; if so, decide fast; if not, buy time', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'dm-3', dim: 'decision-making',
+                    text: 'When making a decision with my team, I typically...',
+                    opts: [
+                        { t: 'Discuss in a meeting until we reach consensus', _s: 2 },
+                        { t: 'Let the most experienced person decide', _s: 1 },
+                        { t: 'Gather input asynchronously, then discuss disagreements in the meeting', _s: 4 },
+                        { t: 'Present my recommendation and ask for feedback', _s: 3 }
+                    ]
+                },
+                {
+                    id: 'dm-4', dim: 'decision-making',
+                    text: 'After a major decision doesn\'t work out as expected, I...',
+                    opts: [
+                        { t: 'Move on quickly to the next priority', _s: 1 },
+                        { t: 'Reflect on what went wrong internally', _s: 2 },
+                        { t: 'Document the lessons and share with the team', _s: 3 },
+                        { t: 'Analyze whether the process was flawed or just the outcome, and adjust my approach', _s: 4 }
+                    ]
+                },
+                // Prioritization (4 questions)
+                {
+                    id: 'pr-1', dim: 'prioritization',
+                    text: 'When I have multiple good opportunities competing for resources, I...',
+                    opts: [
+                        { t: 'Try to do a bit of all of them', _s: 1 },
+                        { t: 'Pick the one with the highest ROI', _s: 2 },
+                        { t: 'Ask leadership which one they prefer', _s: 1 },
+                        { t: 'Evaluate which has the highest opportunity cost if we don\'t do it', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'pr-2', dim: 'prioritization',
+                    text: 'When asked to add something to my roadmap that doesn\'t fit current priorities, I...',
+                    opts: [
+                        { t: 'Find a way to fit it in to keep stakeholders happy', _s: 1 },
+                        { t: 'Explain why it doesn\'t fit and offer to revisit next quarter', _s: 3 },
+                        { t: 'Add it to the backlog and see if it rises in priority later', _s: 2 },
+                        { t: 'Reframe by agreeing the problem is real, then show how current work addresses it better', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'pr-3', dim: 'prioritization',
+                    text: 'When managing my own time across many tasks, I...',
+                    opts: [
+                        { t: 'Work through tasks in order of urgency', _s: 1 },
+                        { t: 'Try to complete quick wins first to build momentum', _s: 2 },
+                        { t: 'Identify which tasks have 10x leverage and prioritize those', _s: 4 },
+                        { t: 'Block time for important work and batch smaller tasks', _s: 3 }
+                    ]
+                },
+                {
+                    id: 'pr-4', dim: 'prioritization',
+                    text: 'When a project is at risk of missing its deadline, I typically...',
+                    opts: [
+                        { t: 'Push the team to work harder to hit the date', _s: 1 },
+                        { t: 'Negotiate a deadline extension with stakeholders', _s: 2 },
+                        { t: 'Cut scope to the minimum viable version that still solves the problem', _s: 3 },
+                        { t: 'Re-evaluate if the deadline or the scope is the real constraint, then optimize', _s: 4 }
+                    ]
+                },
+                // Customer Obsession (4 questions) - CO-1 and CO-4 have N/A option
+                {
+                    id: 'co-1', dim: 'customer-obsession', hasNA: true,
+                    text: 'In a typical month, my direct interaction with customers looks like...',
+                    opts: [
+                        { t: 'I rely on support tickets and analytics data', _s: 1 },
+                        { t: 'I occasionally join sales calls or read customer feedback', _s: 2 },
+                        { t: 'I have 2-4 customer conversations scheduled regularly', _s: 3 },
+                        { t: 'I talk to customers weekly and have a system for recruiting them continuously', _s: 4 }
+                    ],
+                    naText: 'I don\'t have direct customer access in my current role'
+                },
+                {
+                    id: 'co-2', dim: 'customer-obsession',
+                    text: 'When customer feedback contradicts what the data shows, I...',
+                    opts: [
+                        { t: 'Trust the data since it\'s more objective', _s: 2 },
+                        { t: 'Trust the customer feedback since they know their needs', _s: 1 },
+                        { t: 'Dig deeper to understand what\'s causing the discrepancy', _s: 3 },
+                        { t: 'Investigate, then bring both perspectives to the team to challenge our assumptions', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'co-3', dim: 'customer-obsession',
+                    text: 'When a customer requests a specific feature, I typically...',
+                    opts: [
+                        { t: 'Add it to the backlog for consideration', _s: 1 },
+                        { t: 'Evaluate if it aligns with our roadmap', _s: 2 },
+                        { t: 'Ask questions to understand the underlying problem they\'re trying to solve', _s: 3 },
+                        { t: 'Map their full workflow, identify the real opportunity, and propose alternatives they hadn\'t considered', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'co-4', dim: 'customer-obsession', hasNA: true,
+                    text: 'When it comes to sharing customer insights with my team, I...',
+                    opts: [
+                        { t: 'Share insights when they\'re relevant to current work', _s: 2 },
+                        { t: 'Assume everyone has access to the same data I do', _s: 1 },
+                        { t: 'Regularly present customer learnings in team meetings', _s: 3 },
+                        { t: 'Create systems so the team hears directly from customers, not just through me', _s: 4 }
+                    ],
+                    naText: 'I don\'t currently gather customer insights to share'
+                },
+                // Execution (4 questions)
+                {
+                    id: 'ex-1', dim: 'execution',
+                    text: 'My approach to shipping products is best described as...',
+                    opts: [
+                        { t: 'Ship when it\'s ready and polished', _s: 2 },
+                        { t: 'Ship when engineering says it\'s done', _s: 1 },
+                        { t: 'Ship the smallest thing that tests our hypothesis', _s: 3 },
+                        { t: 'Ship early to learn, but only if we can measure what matters', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ex-2', dim: 'execution',
+                    text: 'When my team is blocked on something, I typically...',
+                    opts: [
+                        { t: 'Wait for the blocker to resolve itself', _s: 1 },
+                        { t: 'Escalate to my manager to help resolve it', _s: 2 },
+                        { t: 'Jump in to remove the blocker myself', _s: 3 },
+                        { t: 'Diagnose if it\'s a symptom of a deeper issue and address the root cause', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ex-3', dim: 'execution',
+                    text: 'After shipping a feature, I measure success by...',
+                    opts: [
+                        { t: 'Whether it shipped on time', _s: 1 },
+                        { t: 'User feedback and sentiment', _s: 2 },
+                        { t: 'Whether the target metric moved as expected', _s: 3 },
+                        { t: 'Whether it changed customer behavior in the way we hypothesized', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ex-4', dim: 'execution',
+                    text: 'My approach to process and structure on my team is...',
+                    opts: [
+                        { t: 'Follow the company\'s standard processes', _s: 1 },
+                        { t: 'Add process when things feel chaotic', _s: 2 },
+                        { t: 'Use lightweight process that adapts to what we\'re building', _s: 3 },
+                        { t: 'Design process specifically for our current stage and constraints', _s: 4 }
+                    ]
+                },
+                // Strategic Thinking (4 questions)
+                {
+                    id: 'st-1', dim: 'strategic-thinking',
+                    text: 'When planning what to build, my time horizon is typically...',
+                    opts: [
+                        { t: 'This sprint or this month', _s: 1 },
+                        { t: 'This quarter', _s: 2 },
+                        { t: '2-4 quarters ahead with flexibility', _s: 3 },
+                        { t: 'Multi-year vision that informs quarterly decisions', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'st-2', dim: 'strategic-thinking',
+                    text: 'When evaluating a product change, I consider...',
+                    opts: [
+                        { t: 'The direct impact on the feature we\'re building', _s: 1 },
+                        { t: 'How it affects the immediate user experience', _s: 2 },
+                        { t: 'Second-order effects on other parts of the product', _s: 3 },
+                        { t: 'Cascading impacts across product, business model, and competitive position', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'st-3', dim: 'strategic-thinking',
+                    text: 'My awareness of competitors and market dynamics is...',
+                    opts: [
+                        { t: 'I focus on our product, not competitors', _s: 1 },
+                        { t: 'I track what competitors launch', _s: 2 },
+                        { t: 'I understand our differentiation and monitor market shifts', _s: 3 },
+                        { t: 'I can articulate our sustainable competitive advantage and how to defend it', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'st-4', dim: 'strategic-thinking',
+                    text: 'If someone asked me to explain my product strategy, I would...',
+                    opts: [
+                        { t: 'Describe the features we\'re building', _s: 1 },
+                        { t: 'Explain our goals and key metrics', _s: 2 },
+                        { t: 'Walk through our target customer, their problem, and our approach', _s: 3 },
+                        { t: 'Articulate the diagnosis of our situation, our guiding principles, and coherent actions', _s: 4 }
+                    ]
+                },
+                // Communication (4 questions) - CM-3 revised
+                {
+                    id: 'cm-1', dim: 'communication',
+                    text: 'When presenting to different audiences (engineers vs. executives), I...',
+                    opts: [
+                        { t: 'Use the same presentation for consistency', _s: 1 },
+                        { t: 'Adjust the level of detail based on time available', _s: 2 },
+                        { t: 'Tailor the content to what each audience cares about', _s: 3 },
+                        { t: 'Reframe the entire narrative around what motivates each audience', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'cm-2', dim: 'communication',
+                    text: 'My approach to written communication (docs, emails, specs) is...',
+                    opts: [
+                        { t: 'Write quickly and iterate based on questions', _s: 1 },
+                        { t: 'Include all relevant details to be thorough', _s: 2 },
+                        { t: 'Structure clearly with the key point upfront', _s: 3 },
+                        { t: 'Invest extra time on high-stakes communications because clarity compounds', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'cm-3', dim: 'communication',
+                    text: 'When I need to align stakeholders on a decision, I typically...',
+                    opts: [
+                        { t: 'Send an email with my recommendation and ask for feedback', _s: 2 },
+                        { t: 'Schedule a meeting to discuss and reach consensus', _s: 1 },
+                        { t: 'Have 1:1 conversations first to understand concerns, then bring the group together', _s: 3 },
+                        { t: 'Map each stakeholder\'s goals, frame the decision to address them, and pre-wire agreement before the meeting', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'cm-4', dim: 'communication',
+                    text: 'When someone pushes back on my recommendation, I...',
+                    opts: [
+                        { t: 'Defend my position with more data', _s: 2 },
+                        { t: 'Defer to their judgment if they\'re more senior', _s: 1 },
+                        { t: 'Seek to understand their concern before responding', _s: 3 },
+                        { t: 'Explore whether we\'re disagreeing on facts, priorities, or values', _s: 4 }
+                    ]
+                },
+                // Leadership (4 questions) - LD-4 has N/A option
+                {
+                    id: 'ld-1', dim: 'leadership',
+                    text: 'When I need something from someone who doesn\'t report to me, I...',
+                    opts: [
+                        { t: 'Ask my manager to help make it happen', _s: 1 },
+                        { t: 'Make the request and follow up persistently', _s: 2 },
+                        { t: 'Understand what they care about and show how it helps them', _s: 3 },
+                        { t: 'Build the relationship over time so help flows naturally both ways', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ld-2', dim: 'leadership',
+                    text: 'When my team\'s energy is low or morale is struggling, I...',
+                    opts: [
+                        { t: 'Focus on the work and hope it improves', _s: 1 },
+                        { t: 'Talk to individuals to understand what\'s wrong', _s: 2 },
+                        { t: 'Address the issue openly and work with the team on solutions', _s: 3 },
+                        { t: 'Create psychological safety for the team to surface real issues', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ld-3', dim: 'leadership',
+                    text: 'When something goes wrong on a project I\'m involved in, I...',
+                    opts: [
+                        { t: 'Explain what factors were outside my control', _s: 1 },
+                        { t: 'Take responsibility for my part of the problem', _s: 2 },
+                        { t: 'Take ownership even for things that weren\'t strictly my job', _s: 3 },
+                        { t: 'Focus on fixing the issue first, then analyze what to change systemically', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ld-4', dim: 'leadership', hasNA: true,
+                    text: 'When working with junior team members, I...',
+                    opts: [
+                        { t: 'Give them clear tasks and check their work', _s: 1 },
+                        { t: 'Explain the reasoning behind my decisions so they can learn', _s: 2 },
+                        { t: 'Give them stretch opportunities with support', _s: 3 },
+                        { t: 'Help them develop their own judgment by coaching, not directing', _s: 4 }
+                    ],
+                    naText: 'I don\'t currently work with junior team members'
+                },
+                // Intellectual Humility (4 questions) - IH-3 and IH-4 revised
+                {
+                    id: 'ih-1', dim: 'intellectual-humility',
+                    text: 'When I realize I was wrong about something, I typically...',
+                    opts: [
+                        { t: 'Move on and try to do better next time', _s: 1 },
+                        { t: 'Acknowledge it privately and adjust my approach', _s: 2 },
+                        { t: 'Acknowledge it openly to the team and share what I learned', _s: 3 },
+                        { t: 'Examine why I was wrong and whether my process needs to change', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ih-2', dim: 'intellectual-humility',
+                    text: 'When someone gives me critical feedback, my first reaction is to...',
+                    opts: [
+                        { t: 'Explain my perspective so they understand the full picture', _s: 1 },
+                        { t: 'Thank them but feel defensive internally', _s: 2 },
+                        { t: 'Ask clarifying questions to fully understand their view', _s: 3 },
+                        { t: 'Get curious about what I might be missing that they can see', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ih-3', dim: 'intellectual-humility',
+                    text: 'When I have strong conviction about a decision, I...',
+                    opts: [
+                        { t: 'Push for my view because I\'ve thought it through', _s: 2 },
+                        { t: 'Defer to others who have more experience', _s: 1 },
+                        { t: 'Share my view clearly and adjust if someone raises valid concerns', _s: 3 },
+                        { t: 'Actively seek out the strongest counterarguments before committing', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ih-4', dim: 'intellectual-humility',
+                    text: 'When someone on my team has a different approach than mine, I...',
+                    opts: [
+                        { t: 'Explain why my approach is better', _s: 1 },
+                        { t: 'Let them try their way if they feel strongly', _s: 2 },
+                        { t: 'Genuinely explore whether their approach might be better', _s: 3 },
+                        { t: 'Test both approaches when possible and share what we learned with the team', _s: 4 }
+                    ]
+                },
+                // Product Strategy (4 questions) - PS-3 revised
+                {
+                    id: 'ps-1', dim: 'product-strategy',
+                    text: 'My relationship with business metrics and outcomes is...',
+                    opts: [
+                        { t: 'I focus on shipping features; business tracks the metrics', _s: 1 },
+                        { t: 'I\'m aware of our metrics and how my work connects to them', _s: 2 },
+                        { t: 'I set targets for my work and track whether we hit them', _s: 3 },
+                        { t: 'I own a business outcome and work backwards to determine what to build', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ps-2', dim: 'product-strategy',
+                    text: 'My approach to product vision and roadmap is...',
+                    opts: [
+                        { t: 'I work from the roadmap my leadership provides', _s: 1 },
+                        { t: 'I contribute ideas to the roadmap based on customer needs', _s: 2 },
+                        { t: 'I own the roadmap for my area and align it to company strategy', _s: 3 },
+                        { t: 'I shape the vision for my area and influence the broader product direction', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ps-3', dim: 'product-strategy',
+                    text: 'When I think about the impact of my work, I consider...',
+                    opts: [
+                        { t: 'Whether we shipped what we committed to', _s: 1 },
+                        { t: 'Whether users are happy with what we built', _s: 2 },
+                        { t: 'Whether we moved the metrics we targeted', _s: 3 },
+                        { t: 'Whether this positions us better against competitors and toward our long-term vision', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ps-4', dim: 'product-strategy',
+                    text: 'When thinking about how to invest team resources, I...',
+                    opts: [
+                        { t: 'Work on what leadership assigns to us', _s: 1 },
+                        { t: 'Balance between bugs, features, and tech debt', _s: 2 },
+                        { t: 'Allocate between incremental improvements and bigger bets', _s: 3 },
+                        { t: 'Make deliberate tradeoffs between short-term wins and long-term strategic moves', _s: 4 }
+                    ]
+                },
+                // Customer Insight (4 questions) - CI-1 and CI-2 have N/A option
+                {
+                    id: 'ci-1', dim: 'customer-insight', hasNA: true,
+                    text: 'My relationship with data and analytics is...',
+                    opts: [
+                        { t: 'I rely on analysts to pull data for me', _s: 1 },
+                        { t: 'I can access dashboards and interpret key metrics', _s: 2 },
+                        { t: 'I can query data myself and design experiments', _s: 3 },
+                        { t: 'I proactively identify what data we need and build measurement into everything', _s: 4 }
+                    ],
+                    naText: 'I don\'t have access to data/analytics tools in my current role'
+                },
+                {
+                    id: 'ci-2', dim: 'customer-insight', hasNA: true,
+                    text: 'When it comes to capturing customer voice across the organization, I...',
+                    opts: [
+                        { t: 'Rely on feedback that comes through support channels', _s: 1 },
+                        { t: 'Share interesting customer quotes when relevant', _s: 2 },
+                        { t: 'Have a system to capture and categorize customer insights', _s: 3 },
+                        { t: 'Ensure customer voice informs decisions across product, marketing, and sales', _s: 4 }
+                    ],
+                    naText: 'I don\'t currently own or participate in customer voice initiatives'
+                },
+                {
+                    id: 'ci-3', dim: 'customer-insight',
+                    text: 'My involvement in user experience decisions is...',
+                    opts: [
+                        { t: 'I leave UX to the designers', _s: 1 },
+                        { t: 'I provide input on UX when asked', _s: 2 },
+                        { t: 'I collaborate closely with design on user flows and wireframes', _s: 3 },
+                        { t: 'I can think through UX tradeoffs and articulate the user journey end-to-end', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'ci-4', dim: 'customer-insight',
+                    text: 'When we have lots of customer data from different sources, I...',
+                    opts: [
+                        { t: 'Review what\'s relevant to my current project', _s: 1 },
+                        { t: 'Try to stay aware of major themes', _s: 2 },
+                        { t: 'Synthesize insights into patterns that inform strategy', _s: 3 },
+                        { t: 'Build shared understanding across the team of what customers need and why', _s: 4 }
+                    ]
+                },
+                // Managing Up (4 questions) - MU-4 has N/A option
+                {
+                    id: 'mu-1', dim: 'managing-up',
+                    text: 'When it comes to keeping my manager informed, I...',
+                    opts: [
+                        { t: 'Wait for our 1:1s to share updates', _s: 1 },
+                        { t: 'Flag issues when they arise', _s: 2 },
+                        { t: 'Proactively share progress, risks, and decisions regularly', _s: 3 },
+                        { t: 'Anticipate what my manager needs to know and when they need to know it', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'mu-2', dim: 'managing-up',
+                    text: 'When I face a difficult decision or problem, I typically go to my manager with...',
+                    opts: [
+                        { t: 'The problem, asking for guidance', _s: 1 },
+                        { t: 'A few options I\'m considering', _s: 2 },
+                        { t: 'My recommendation with reasoning, asking for input', _s: 3 },
+                        { t: 'My recommendation, the key tradeoffs, and what I\'d need to change my mind', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'mu-3', dim: 'managing-up',
+                    text: 'When stakeholders want conflicting things, I typically...',
+                    opts: [
+                        { t: 'Escalate to my manager to resolve', _s: 1 },
+                        { t: 'Try to find a compromise that partially satisfies both', _s: 2 },
+                        { t: 'Clarify the tradeoffs and help stakeholders decide together', _s: 3 },
+                        { t: 'Understand each stakeholder\'s underlying goal and reframe to find alignment', _s: 4 }
+                    ]
+                },
+                {
+                    id: 'mu-4', dim: 'managing-up', hasNA: true,
+                    text: 'When presenting to executives, I...',
+                    opts: [
+                        { t: 'Present the full context so they can understand the decision', _s: 1 },
+                        { t: 'Focus on the key points and keep it concise', _s: 2 },
+                        { t: 'Lead with the recommendation, then provide supporting context', _s: 3 },
+                        { t: 'Frame the conversation around what they\'re trying to achieve and how this helps', _s: 4 }
+                    ],
+                    naText: 'I don\'t currently present to executives'
+                }
+            ],
+            envQuestions: [
+                {
+                    id: 'env-1',
+                    text: 'In my current role, my team is typically...',
+                    opts: [
+                        { t: 'Given problems to solve with autonomy on how to solve them', id: 'A' },
+                        { t: 'Given goals with some flexibility on approach', id: 'B' },
+                        { t: 'Given a roadmap of features with flexibility on implementation details', id: 'C' },
+                        { t: 'Given specific features to ship with defined requirements and deadlines', id: 'D' },
+                        { t: 'It varies significantly depending on the project', id: 'E' }
+                    ]
+                },
+                {
+                    id: 'env-2',
+                    text: 'When I think about being effective as a PM, I feel that...',
+                    opts: [
+                        { t: 'My environment fully enables me — I can apply my skills and have real impact', id: 'A' },
+                        { t: 'My environment mostly enables me — some friction but I can work around it', id: 'B' },
+                        { t: 'My environment limits me somewhat — I could be more effective with better organizational support', id: 'C' },
+                        { t: 'My environment significantly limits me — systemic barriers prevent me from being as effective as my skills allow', id: 'D' },
+                        { t: 'I\'m not sure — I haven\'t thought about this distinction', id: 'E' }
+                    ]
+                }
+            ],
+            recommendations: {
+                'decision-making': {
+                    low: { advice: 'Start by distinguishing between reversible and irreversible decisions. For reversible decisions, optimize for speed over perfection. Practice the "two-way door" framework: if you can easily reverse a decision, make it quickly and learn from the outcome.', sources: ["Lenny's Podcast: Shreyas Doshi on decision-making frameworks", "Lenny's Podcast: Annie Duke on thinking in bets"] },
+                    medium: { advice: 'Build a personal decision-making toolkit. Document your decision criteria before gathering input, use pre-mortems to identify risks, and create decision logs to learn from outcomes. Focus on improving your process, not just individual decisions.', sources: ["Lenny's Podcast: Shreyas Doshi on the LNO framework", "Lenny's Podcast: How to make faster decisions"] },
+                    high: { advice: 'Help others develop decision-making skills. Create frameworks your team can use, coach others through tough decisions, and build organizational muscle around decision quality. Consider how to scale good decision-making beyond yourself.', sources: ["Lenny's Podcast: Marty Cagan on empowered teams", "Lenny's Podcast: Julie Zhuo on building decision-making culture"] }
+                },
+                'prioritization': {
+                    low: { advice: 'Start with a simple prioritization framework like ICE (Impact, Confidence, Effort) or RICE. Practice saying "not now" instead of "no" — it\'s easier to defer than reject. Build the habit of asking "what\'s the opportunity cost?" for every commitment.', sources: ["Lenny's Podcast: Shreyas Doshi on prioritization", "Lenny's Podcast: The art of saying no"] },
+                    medium: { advice: 'Move from reactive to proactive prioritization. Block time weekly for strategic work. Use the "calendar test" — if it\'s important, it should be on your calendar. Learn to identify 10x leverage activities vs. linear improvements.', sources: ["Lenny's Podcast: Shreyas Doshi on high-leverage work", "Lenny's Podcast: Keith Rabois on finding leverage"] },
+                    high: { advice: 'Teach prioritization frameworks to your team and stakeholders. Help others understand opportunity costs and tradeoffs. Build systems that make good prioritization the default, not the exception.', sources: ["Lenny's Podcast: Marty Cagan on product leadership", "Lenny's Podcast: Ravi Mehta on PM skills"] }
+                },
+                'customer-obsession': {
+                    low: { advice: 'Schedule 2-3 customer conversations this month. Use a simple template: what are they trying to accomplish? What\'s hard about it? What have they tried? Build the habit of hearing customer voice directly, not through intermediaries.', sources: ["Lenny's Podcast: Teresa Torres on continuous discovery", "Lenny's Podcast: How to talk to users"] },
+                    medium: { advice: 'Create a sustainable customer research cadence. Build a participant panel for quick recruitment. Share customer insights broadly — record calls (with permission), create highlight reels, bring customer quotes to every planning discussion.', sources: ["Lenny's Podcast: Teresa Torres on opportunity solution trees", "Lenny's Podcast: Julie Zhuo on user empathy"] },
+                    high: { advice: 'Build customer obsession into your team\'s culture. Create systems where everyone hears from customers regularly. Ensure customer voice influences decisions across product, design, and engineering — not just through you.', sources: ["Lenny's Podcast: Marty Cagan on customer-centric culture", "Lenny's Podcast: Building a customer-obsessed company"] }
+                },
+                'execution': {
+                    low: { advice: 'Focus on shipping smaller, more frequently. Break large projects into shippable increments. Define success metrics before building. Practice the "what would we need to believe?" framework to identify key assumptions to test early.', sources: ["Lenny's Podcast: Marty Cagan on product discovery", "Lenny's Podcast: How to ship faster"] },
+                    medium: { advice: 'Build your pattern recognition for blockers and risks. Create early warning systems for project health. Develop relationships across functions so you can unblock quickly. Focus on outcomes, not just outputs.', sources: ["Lenny's Podcast: Shreyas Doshi on execution", "Lenny's Podcast: Julie Zhuo on managing product teams"] },
+                    high: { advice: 'Design execution systems that scale. Build repeatable processes for different project types. Coach others on execution excellence. Create organizational patterns that make shipping the default state.', sources: ["Lenny's Podcast: Marty Cagan on product operations", "Lenny's Podcast: Shishir Mehrotra on running effective teams"] }
+                },
+                'strategic-thinking': {
+                    low: { advice: 'Start building strategic context. Read your company\'s strategy documents, understand key metrics, and map how your work connects to business outcomes. Practice extending your planning horizon — think one quarter ahead, then two.', sources: ["Lenny's Podcast: Gibson Biddle on product strategy", "Lenny's Podcast: How to think strategically"] },
+                    medium: { advice: 'Develop your strategic toolkit. Learn frameworks like Good Strategy/Bad Strategy, Jobs to be Done, and competitive positioning. Practice articulating strategy as diagnosis + guiding policy + coherent actions.', sources: ["Lenny's Podcast: Gibson Biddle on the DHM framework", "Lenny's Podcast: Shreyas Doshi on strategic PM skills"] },
+                    high: { advice: 'Influence strategy beyond your immediate scope. Contribute to company-level strategy discussions. Help others connect tactical work to strategic outcomes. Build shared strategic language across your organization.', sources: ["Lenny's Podcast: Marty Cagan on product leadership", "Lenny's Podcast: Ravi Mehta on strategic impact"] }
+                },
+                'communication': {
+                    low: { advice: 'Focus on clarity fundamentals. Lead with the main point. Use the "Minto Pyramid" — conclusion first, then supporting points. Practice writing one-page documents that anyone can understand in 2 minutes.', sources: ["Lenny's Podcast: Julie Zhuo on communication", "Lenny's Podcast: Writing for PMs"] },
+                    medium: { advice: 'Develop audience-adaptive communication. Map stakeholders\' goals and concerns before key conversations. Practice "steel-manning" — articulating others\' views better than they can. Build alignment through 1:1s before group discussions.', sources: ["Lenny's Podcast: Shreyas Doshi on stakeholder management", "Lenny's Podcast: Kim Scott on Radical Candor"] },
+                    high: { advice: 'Build communication culture on your team. Create templates and norms for key communications. Coach others on effective communication. Ensure important information flows effectively without requiring your involvement.', sources: ["Lenny's Podcast: Marty Cagan on product communication", "Lenny's Podcast: Claire Hughes Johnson on scaling communication"] }
+                },
+                'leadership': {
+                    low: { advice: 'Start building influence through helpfulness. Understand what others care about and look for ways to support them. Build relationships before you need them. Practice taking ownership beyond your formal responsibilities.', sources: ["Lenny's Podcast: Julie Zhuo on influence", "Lenny's Podcast: Leading without authority"] },
+                    medium: { advice: 'Develop your leadership toolkit. Practice giving feedback that helps people grow. Create psychological safety in your interactions. Learn to address team dynamics issues directly and constructively.', sources: ["Lenny's Podcast: Kim Scott on Radical Candor", "Lenny's Podcast: Julie Zhuo on leading teams"] },
+                    high: { advice: 'Scale your leadership impact. Build systems that develop others. Create environments where people do their best work. Focus on coaching and developing future leaders, not just individual contributors.', sources: ["Lenny's Podcast: Marty Cagan on coaching PMs", "Lenny's Podcast: Developing PM talent"] }
+                },
+                'intellectual-humility': {
+                    low: { advice: 'Practice curiosity before advocacy. When you disagree, ask questions to understand the other view fully before sharing yours. Create a habit of saying "I might be wrong about this, but..." to open space for feedback.', sources: ["Lenny's Podcast: Annie Duke on updating beliefs", "Lenny's Podcast: Adam Grant on thinking again"] },
+                    medium: { advice: 'Build learning into your process. After key decisions, ask "what would have to be true for the opposite to be correct?" Actively seek feedback from people who see things differently. Create blameless post-mortems that focus on learning.', sources: ["Lenny's Podcast: Shreyas Doshi on intellectual humility", "Lenny's Podcast: Building a growth mindset"] },
+                    high: { advice: 'Model intellectual humility for others. Share your mistakes and learnings publicly. Build culture where changing your mind is celebrated, not punished. Create systems for organizational learning from failures.', sources: ["Lenny's Podcast: Marty Cagan on learning culture", "Lenny's Podcast: Kim Scott on humble leadership"] }
+                },
+                'product-strategy': {
+                    low: { advice: 'Connect your work to business outcomes. Identify the key metric your work should move. Practice working backwards from outcomes to features. Ask "why does this matter to the business?" for everything on your roadmap.', sources: ["Lenny's Podcast: Gibson Biddle on product strategy", "Lenny's Podcast: Metrics that matter"] },
+                    medium: { advice: 'Own outcomes, not just outputs. Set targets for your work and track results. Build the habit of measuring everything. Practice articulating your product strategy as a clear hypothesis about how to create value.', sources: ["Lenny's Podcast: Marty Cagan on outcome-focused teams", "Lenny's Podcast: Shreyas Doshi on product strategy"] },
+                    high: { advice: 'Shape strategy beyond your immediate scope. Influence product direction at higher levels. Help leadership see opportunities and risks. Build strategic alignment across multiple teams and stakeholders.', sources: ["Lenny's Podcast: Marty Cagan on product leadership", "Lenny's Podcast: Ravi Mehta on strategic PM"] }
+                },
+                'customer-insight': {
+                    low: { advice: 'Build your data literacy. Learn to access and interpret your key dashboards. Practice asking "how would we measure this?" for every feature. Start designing simple A/B tests to validate assumptions.', sources: ["Lenny's Podcast: Teresa Torres on continuous discovery", "Lenny's Podcast: Data skills for PMs"] },
+                    medium: { advice: 'Synthesize insights into actionable patterns. Build systems to capture and organize customer learnings. Create shared repositories of customer insights. Connect qualitative and quantitative data to tell complete stories.', sources: ["Lenny's Podcast: Teresa Torres on research synthesis", "Lenny's Podcast: Julie Zhuo on design thinking"] },
+                    high: { advice: 'Build customer insight capability across your organization. Create systems where customer voice is always present in decisions. Ensure data-informed decision making is the default, not the exception.', sources: ["Lenny's Podcast: Marty Cagan on customer-centric organizations", "Lenny's Podcast: Building insight systems"] }
+                },
+                'managing-up': {
+                    low: { advice: 'Practice proactive communication. Don\'t wait for 1:1s — share updates when they happen. Always bring a recommendation, not just problems. Learn your manager\'s communication preferences and adapt to them.', sources: ["Lenny's Podcast: Julie Zhuo on managing up", "Lenny's Podcast: Working with leadership"] },
+                    medium: { advice: 'Anticipate what leadership needs. Think about what keeps them up at night and address it proactively. Frame your work in terms of company priorities. Practice executive communication — lead with the ask, then context.', sources: ["Lenny's Podcast: Shreyas Doshi on managing up", "Lenny's Podcast: Kim Scott on executive communication"] },
+                    high: { advice: 'Build trust that enables autonomy. Help leadership look good by keeping them informed and aligned. Create stakeholder alignment systems that scale. Develop other PMs\' managing up skills.', sources: ["Lenny's Podcast: Marty Cagan on executive partnership", "Lenny's Podcast: Stakeholder management at scale"] }
+                }
+            }
+        };
+
+        // State
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let expAnswers = {};
+        let envAnswers = {};
+        let naAnswers = {};
+        let allQuestions = [];
+
+        function init() {
+            // Build question sequence: experience → dimension questions → environment
+            allQuestions = [];
+
+            // Add experience questions first
+            _d.expQuestions.forEach(q => {
+                allQuestions.push({ ...q, isExp: true });
+            });
+
+            // Add dimension questions
+            const dimensionGroups = {};
+            _d.questions.forEach(q => {
+                if (!dimensionGroups[q.dim]) dimensionGroups[q.dim] = [];
+                dimensionGroups[q.dim].push(q);
+            });
+
+            _d.dimensions.forEach(dim => {
+                const dimQuestions = dimensionGroups[dim.id] || [];
+                dimQuestions.forEach(q => {
+                    const shuffledOpts = [...q.opts].sort(() => Math.random() - 0.5);
+                    allQuestions.push({ ...q, opts: shuffledOpts });
+                });
+            });
+
+            // Add environment questions at the end
+            _d.envQuestions.forEach(q => {
+                allQuestions.push({ ...q, isEnv: true });
+            });
+
+            document.getElementById('total-q').textContent = allQuestions.length;
+        }
+
+        function startAssessment() {
+            document.getElementById('welcome-screen').classList.remove('active');
+            document.getElementById('question-screen').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            const q = allQuestions[index];
+
+            document.getElementById('current-q').textContent = index + 1;
+            document.getElementById('progress-fill').style.width = `${((index + 1) / allQuestions.length) * 100}%`;
+
+            // Set dimension label
+            if (q.isExp) {
+                document.getElementById('dimension-label').textContent = q.label || 'Experience';
+            } else if (q.isEnv) {
+                document.getElementById('dimension-label').textContent = 'Environment Reflection (Not Scored)';
+            } else {
+                const dim = _d.dimensions.find(d => d.id === q.dim);
+                document.getElementById('dimension-label').textContent = dim ? dim.name : '';
+            }
+
+            document.getElementById('question-text').textContent = q.text;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.opts.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option';
+                btn.textContent = opt.t;
+                btn.onclick = () => selectOption(q, i, opt, false);
+
+                // Check if this option was previously selected
+                let existingAnswer;
+                if (q.isExp) {
+                    existingAnswer = expAnswers[q.id];
+                } else if (q.isEnv) {
+                    existingAnswer = envAnswers[q.id];
+                } else {
+                    existingAnswer = answers[q.id];
+                }
+
+                if (existingAnswer !== undefined && existingAnswer.index === i && !existingAnswer.isNA) {
+                    btn.classList.add('selected');
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Add N/A option if applicable
+            if (q.hasNA && q.naText) {
+                const naBtn = document.createElement('button');
+                naBtn.className = 'option na-option';
+                naBtn.textContent = q.naText;
+                naBtn.onclick = () => selectOption(q, -1, null, true);
+
+                const existingAnswer = answers[q.id];
+                if (existingAnswer && existingAnswer.isNA) {
+                    naBtn.classList.add('selected');
+                }
+
+                optionsContainer.appendChild(naBtn);
+            }
+
+            // Update navigation buttons
+            document.getElementById('prev-btn').style.display = index === 0 ? 'none' : 'block';
+
+            const nextBtn = document.getElementById('next-btn');
+            let hasAnswer;
+            if (q.isExp) {
+                hasAnswer = expAnswers[q.id] !== undefined;
+            } else if (q.isEnv) {
+                hasAnswer = envAnswers[q.id] !== undefined;
+            } else {
+                hasAnswer = answers[q.id] !== undefined;
+            }
+            nextBtn.disabled = !hasAnswer;
+            nextBtn.textContent = index === allQuestions.length - 1 ? 'See Results' : 'Next';
+        }
+
+        function selectOption(question, optIndex, opt, isNA) {
+            if (question.isExp) {
+                expAnswers[question.id] = { index: optIndex, value: opt.id, text: opt.t };
+            } else if (question.isEnv) {
+                envAnswers[question.id] = { index: optIndex, value: opt.id, text: opt.t };
+            } else {
+                if (isNA) {
+                    answers[question.id] = { isNA: true, text: question.naText };
+                    naAnswers[question.id] = { dim: question.dim, text: question.naText };
+                } else {
+                    answers[question.id] = { index: optIndex, score: opt._s, isNA: false };
+                    delete naAnswers[question.id];
+                }
+            }
+
+            // Update UI
+            const options = document.querySelectorAll('.option');
+            options.forEach((o, i) => {
+                if (isNA) {
+                    o.classList.toggle('selected', o.classList.contains('na-option'));
+                } else {
+                    o.classList.toggle('selected', i === optIndex);
+                }
+            });
+
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < allQuestions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            } else {
+                showResults();
+            }
+        }
+
+        function calculateScores() {
+            const dimensionScores = {};
+
+            _d.dimensions.forEach(dim => {
+                const dimQuestions = allQuestions.filter(q => q.dim === dim.id && !q.isEnv && !q.isExp);
+                const validAnswers = dimQuestions
+                    .map(q => answers[q.id])
+                    .filter(a => a && !a.isNA && a.score !== undefined);
+
+                if (validAnswers.length > 0) {
+                    const sum = validAnswers.reduce((acc, a) => acc + a.score, 0);
+                    dimensionScores[dim.id] = sum / validAnswers.length;
+                } else {
+                    dimensionScores[dim.id] = 0;
+                }
+            });
+
+            return dimensionScores;
+        }
+
+        function getTier(score) {
+            if (score >= 3.25) return { name: 'Leading', class: 'tier-leading' };
+            if (score >= 2.50) return { name: 'Proficient', class: 'tier-proficient' };
+            if (score >= 1.75) return { name: 'Building', class: 'tier-building' };
+            return { name: 'Emerging', class: 'tier-emerging' };
+        }
+
+        function getRecommendationLevel(score) {
+            if (score >= 3.0) return 'high';
+            if (score >= 2.0) return 'medium';
+            return 'low';
+        }
+
+        function showResults() {
+            document.getElementById('question-screen').classList.remove('active');
+            document.getElementById('results-screen').classList.add('active');
+
+            const scores = calculateScores();
+            const scoreEntries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+            // Overall tier
+            const validScores = Object.values(scores).filter(s => s > 0);
+            const overallAvg = validScores.length > 0 ? validScores.reduce((a, b) => a + b, 0) / validScores.length : 0;
+            const overallTier = getTier(overallAvg);
+            document.getElementById('overall-tier').textContent = `Overall: ${overallTier.name} (${overallAvg.toFixed(2)})`;
+
+            // Radar chart
+            renderRadarChart(scores);
+
+            // Strengths (top 3) - compact chips
+            const strengthsContainer = document.getElementById('strengths-container');
+            strengthsContainer.innerHTML = '';
+            scoreEntries.filter(([_, s]) => s > 0).slice(0, 3).forEach(([dimId, score]) => {
+                const dim = _d.dimensions.find(d => d.id === dimId);
+                const tier = getTier(score);
+                strengthsContainer.innerHTML += `
+                    <div class="strength-chip">
+                        <h4>${dim.name}</h4>
+                        <p>${score.toFixed(2)} — ${tier.name}</p>
+                    </div>
+                `;
+            });
+
+            // Growth areas (bottom 3) - expandable cards with recommendations
+            const growthContainer = document.getElementById('growth-container');
+            growthContainer.innerHTML = '';
+            scoreEntries.filter(([_, s]) => s > 0).slice(-3).reverse().forEach(([dimId, score]) => {
+                const dim = _d.dimensions.find(d => d.id === dimId);
+                const tier = getTier(score);
+                const level = getRecommendationLevel(score);
+                const rec = _d.recommendations[dimId]?.[level];
+
+                let recHTML = '';
+                if (rec) {
+                    recHTML = `
+                        <div class="growth-card-details">
+                            <p class="advice">${rec.advice}</p>
+                            <div class="sources">
+                                <strong>🎧 Listen to:</strong><br>
+                                ${rec.sources.map(s => `• ${s}`).join('<br>')}
+                                <br><br><a href="https://www.lennysnewsletter.com/podcast" target="_blank">Browse all episodes →</a>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                growthContainer.innerHTML += `
+                    <div class="growth-card" onclick="toggleGrowthCard(this)">
+                        <div class="growth-card-header">
+                            <div class="growth-card-info">
+                                <h4>${dim.name}</h4>
+                                <p class="score-line">${score.toFixed(2)} — ${tier.name}</p>
+                            </div>
+                            <div class="growth-card-toggle">
+                                <span>See recommendations</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        ${recHTML}
+                    </div>
+                `;
+            });
+
+            // N/A skills section
+            const naEntries = Object.values(naAnswers);
+            if (naEntries.length > 0) {
+                document.getElementById('na-section').style.display = 'block';
+                const naContainer = document.getElementById('na-container');
+                naContainer.innerHTML = '';
+                naEntries.forEach(na => {
+                    const dim = _d.dimensions.find(d => d.id === na.dim);
+                    naContainer.innerHTML += `
+                        <div class="strength-chip" style="background: #fef3c7;">
+                            <h4 style="color: #92400e;">${dim ? dim.name : 'Unknown'}</h4>
+                            <p style="color: #b45309;">${na.text}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            // All scores (collapsible content)
+            const allScoresContainer = document.getElementById('all-scores-container');
+            allScoresContainer.innerHTML = '';
+            _d.dimensions.forEach(dim => {
+                const score = scores[dim.id];
+                const tier = getTier(score);
+                const naCount = Object.values(naAnswers).filter(na => na.dim === dim.id).length;
+                let scoreText = score > 0 ? `${score.toFixed(2)}` : 'N/A';
+                let tierText = score > 0 ? tier.name : 'Not Scored';
+                let tierClass = score > 0 ? tier.class : '';
+
+                allScoresContainer.innerHTML += `
+                    <div class="dimension-score">
+                        <span class="dimension-name">${dim.name}${naCount > 0 ? ' *' : ''}</span>
+                        <div class="score-badge">
+                            <span class="score-value">${scoreText}</span>
+                            <span class="tier-badge ${tierClass}">${tierText}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Environment responses (collapsible content)
+            const envResponses = document.getElementById('env-responses');
+            envResponses.innerHTML = '';
+            _d.envQuestions.forEach(q => {
+                const answer = envAnswers[q.id];
+                envResponses.innerHTML += `
+                    <div style="margin-bottom: 16px;">
+                        <p style="font-weight: 500; margin-bottom: 4px;">${q.text}</p>
+                        <p style="color: #4b5563; margin: 0;">${answer ? answer.text : 'Not answered'}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleGrowthCard(card) {
+            card.classList.toggle('open');
+            const toggleText = card.querySelector('.growth-card-toggle span');
+            if (card.classList.contains('open')) {
+                toggleText.textContent = 'Hide recommendations';
+            } else {
+                toggleText.textContent = 'See recommendations';
+            }
+        }
+
+        function toggleCollapsible(header) {
+            header.classList.toggle('open');
+            const content = header.nextElementSibling;
+            content.classList.toggle('open');
+        }
+
+        function renderRadarChart(scores) {
+            const ctx = document.getElementById('radar-chart').getContext('2d');
+
+            const labels = _d.dimensions.map(d => d.name);
+            const data = _d.dimensions.map(d => scores[d.id] || 0);
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Your Scores',
+                        data: data,
+                        backgroundColor: 'rgba(17, 17, 17, 0.1)',
+                        borderColor: '#111',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#111',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: 4,
+                            ticks: {
+                                stepSize: 1,
+                                display: false
+                            },
+                            grid: {
+                                color: '#e5e7eb'
+                            },
+                            angleLines: {
+                                color: '#e5e7eb'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 11
+                                },
+                                color: '#374151'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function submitResults() {
+            const scores = calculateScores();
+            const validScores = Object.values(scores).filter(s => s > 0);
+            const overallAvg = validScores.length > 0 ? validScores.reduce((a, b) => a + b, 0) / validScores.length : 0;
+
+            // Format dimension scores
+            const dimensionScores = _d.dimensions.map(d => {
+                const score = scores[d.id];
+                const naCount = Object.values(naAnswers).filter(na => na.dim === d.id).length;
+                if (score > 0) {
+                    return `${d.name}: ${score.toFixed(2)} (${getTier(score).name})${naCount > 0 ? ' *' : ''}`;
+                } else {
+                    return `${d.name}: N/A (all questions skipped)`;
+                }
+            }).join('\n');
+
+            // Format experience
+            const experienceInfo = _d.expQuestions.map(q => {
+                const answer = expAnswers[q.id];
+                return `${q.text}\n→ ${answer ? answer.text : 'Not answered'}`;
+            }).join('\n\n');
+
+            // Format environment responses
+            const envResponsesText = _d.envQuestions.map(q => {
+                const answer = envAnswers[q.id];
+                return `${q.text}\n→ ${answer ? answer.text : 'Not answered'}`;
+            }).join('\n\n');
+
+            // Format N/A questions
+            const naQuestionsText = Object.values(naAnswers).length > 0
+                ? Object.values(naAnswers).map(na => {
+                    const dim = _d.dimensions.find(d => d.id === na.dim);
+                    return `- ${dim ? dim.name : 'Unknown'}: ${na.text}`;
+                }).join('\n')
+                : 'None';
+
+            const templateParams = {
+                timestamp: new Date().toLocaleString(),
+                overall_tier: getTier(overallAvg).name,
+                overall_score: overallAvg.toFixed(2),
+                dimension_scores: dimensionScores,
+                experience_info: experienceInfo,
+                env_responses: envResponsesText,
+                na_questions: naQuestionsText,
+                na_count: Object.values(naAnswers).length.toString()
+            };
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            emailjs.init('bcl19Huu1vyJ4WH_P');
+            emailjs.send('service_oxze5kk', 'template_1zc61dp', templateParams)
+                .then(function() {
+                    const shareCta = document.getElementById('share-cta');
+                    shareCta.classList.add('submitted');
+                    shareCta.innerHTML = `
+                        <div class="share-cta-text">
+                            <h4>✓ Thanks for contributing!</h4>
+                            <p>Your anonymous scores help build PM skill benchmarks for the community.</p>
+                        </div>
+                    `;
+                })
+                .catch(function(error) {
+                    console.error('EmailJS error:', error);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Share My Results';
+                    alert('Submission failed. Your results are still visible above.');
+                });
+        }
+
+        init();
+    </script>
+</body>
+</html>
