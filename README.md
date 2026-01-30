@@ -4,7 +4,7 @@ A free, open-source self-assessment tool for Product Managers to identify streng
 
 ## Take the Assessment
 
-**[Take the assessment online](https://anunarang.github.io/pm-self-assessment/)** (no download required)
+**[Take the assessment online](https://aj1021n-netizen.github.io/pm-self-assessment/)** (no download required)
 
 Or download `index.html` and open it locally in your browser.
 
