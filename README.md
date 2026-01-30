@@ -10,7 +10,7 @@ Or download `index.html` and open it locally in your browser.
 
 ## Features
 
-- **11 PM Dimensions** — Covers both craft skills (Decision-Making, Prioritization, Customer Obsession, Execution, Strategic Thinking, Communication, Leadership, Intellectual Humility) and functional skills (Product Strategy, Customer Insight, Managing Up)
+- **11 PM Dimensions** — Decision-Making, Prioritization, Customer Obsession, Execution, Strategic Thinking, Communication, Leadership, Intellectual Humility, Product Strategy, Customer Insight, Managing Up
 
 - **Behavioral Scenarios** — Questions based on what you actually do, not what you think you should do
 
