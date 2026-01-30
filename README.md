@@ -27,16 +27,7 @@ Or download `index.html` and open it locally in your browser.
 3. Get personalized podcast recommendations for growth areas
 4. Optionally share anonymous scores to help build PM benchmarks
 
-## Assessment Framework
-
-Based on insights from experts featured on [Lenny's Podcast](https://www.lennysnewsletter.com/podcast), including:
-- Shreyas Doshi
-- Marty Cagan
-- Teresa Torres
-- Julie Zhuo
-- Kim Scott
-- Gibson Biddle
-- and more
+Based on insights from experts on [Lenny's Podcast](https://www.lennysnewsletter.com/podcast): Shreyas Doshi, Marty Cagan, Teresa Torres, Julie Zhuo, Kim Scott, Gibson Biddle, and more.
 
 ## Scoring
 
